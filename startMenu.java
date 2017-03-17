@@ -15,7 +15,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.scene.control.TextField;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -26,20 +25,23 @@ import java.util.logging.Logger;
 /**
  * Created by Mark Gavin on 3/12/2017.
  */
-public class Client extends Application {
-    Scene stMenu, batField, login, winX;
-    VBox sMenu, lMenu, winFrame;
+public class startMenu extends Application {
+    Scene stMenu, batField, login, addPlayers, winFrame;
+    VBox sMenu, lMenu, pMenu, winX;
     HBox batMenu;
     StackPane back;
     Stage window;
-    ImageView iconI;
 
+    ImageView profPic;
+    public static void main(String [] args)
+    {
+        launch(args);
+    }
+
+    @Override
     public void start(Stage primaryStage) throws Exception
     {
         window = primaryStage;
-        Image I = new Image("bato.png", 100, 100 , false, false);
-        iconI = new ImageView();
-        iconI.setImage(I);
         primaryStage.setTitle("THE WORLD'S GREATEST ROCK PAPER SCISSORS GAME");
         sMenu = firstWindow();
         stMenu = new Scene(sMenu, 1000, 700);
@@ -47,11 +49,14 @@ public class Client extends Application {
         batField = new Scene(back, 1000, 700);
         lMenu = loginHere();
         login = new Scene(lMenu, 300, 350);
-        winFrame = winningC();
-        winX = new Scene(winFrame, 500, 500);
+        pMenu = addingP();
+        addPlayers = new Scene(pMenu, 300, 350);
+        winX = winningC();
+        winFrame = new Scene(winX, 500, 500);
         window.setScene(stMenu);
         primaryStage.show();
     }
+
     public VBox firstWindow()
     {
         ImageView iv = new ImageView();
@@ -65,7 +70,7 @@ public class Client extends Application {
         sMenu.setPadding(new Insets(50, 100, 50, 100));
         sMenu.setSpacing(10);
         Button goTo = new Button("", ig);
-        goTo.setOnAction(e -> window.setScene(login));
+        goTo.setOnAction(e -> window.setScene(addPlayers));
         holder.getChildren().add(goTo);
         holder.setPadding(new Insets(0, 0, 0, 350));
         sMenu.getChildren().addAll(iv, holder);
@@ -102,7 +107,7 @@ public class Client extends Application {
         p2.setImage(paper2);
         s2.setImage(scissors2);
         bp1 = new Button ("", p1);
-        bp1.setOnAction(e -> window.setScene(winX));
+        bp1.setOnAction(e -> window.setScene(winFrame));
         bp2 = new Button ("", p2);
         bs1 = new Button ("", s1);
         bs2 = new Button ("", s2);
@@ -140,53 +145,70 @@ public class Client extends Application {
 
         return back;
     }
+
     public VBox loginHere()
     {
-        ImageView pImage = new ImageView();
-        Image pPic = genpPic();
-        pImage.setFitHeight(100);
-        pImage.setFitWidth(100);
-        pImage.setImage(pPic);
+        //Scene loginArea = new Scene(sMenu, 1000, 700);
+        File holder;
         VBox canvas1 = new VBox(20);
+        Button openFile = new Button("Click to Upload Profile Picture");
+        ImageView icon = new ImageView();
         Button nextB = new Button("Continue to the Fray");
         HBox forEach1, forEach2, forEach3;
         TextField user;
         forEach1 = new HBox(20);
+        forEach2 = new HBox(20);
+        forEach3 = new HBox(20);
+        forEach2.getChildren().addAll(icon, openFile);
         user = new TextField();
         Label name  = new Label("Username: ");
-        Label logging = new Label("");
+        Label logging = new Label("USER LOGIN");
         logging.setStyle("-fx-font: 36 arial;");
         nextB.setOnAction(e -> window.setScene(batField));
+        //openFile.setOnAction(e -> getIcon());
+        openFile.setOnAction(e -> getIcon());
+        //holder = getIcon();
         forEach1.getChildren().addAll(name, user);
-        forEach1.setPadding(new Insets(0, 0, 0, 0));
-        canvas1.setPadding(new Insets(50, 0, 0, 10));
-        canvas1.getChildren().addAll(logging, pImage, forEach1, nextB);
+        forEach1.setPadding(new Insets(50, 0, 0, 0));
+        canvas1.setPadding(new Insets(100, 0, 0, 10));
+        canvas1.getChildren().addAll(logging, forEach1, openFile, nextB);
         return canvas1;
     }
 
-    public Image genpPic()
+    public File getIcon()
     {
-        Random rand = new Random();
-        Image here;
-        int got = rand.nextInt(4);
-        got++;
-        switch(got)
-        {
-            case 1: here = new Image("una.jpg", 100, 100 , false, false);
-                    break;
-            case 2: here = new Image("pangalawa.jpg", 100, 100 , false, false);
-                    break;
-            case 3: here = new Image("pangatlo.jpg", 100, 100 , false, false);
-                    break;
-            case 4: here = new Image("pangapat.jpg", 100, 100 , false, false);
-                    break;
-            default: here = new Image("luck.gif", 100, 100 , false, false);
-                    break;
-        }
-
-        return here;
+        //profPic = new ImageView();
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open User Icon");
+        File image = fc.showOpenDialog(window);
+        return image;
     }
 
+    public VBox addingP()
+    {
+        VBox form = new VBox(20);
+        Label L1 = new Label("Player 1: ");
+        Label L2 = new Label("Player 2:");
+        Label L3 = new Label("Player 3: ");
+        Label L4 = new Label("Player 4: ");
+        TextField tf1 = new TextField("IP Address Here");
+        TextField tf2 = new TextField("IP Address Here");
+        TextField tf3 = new TextField("IP Address Here");
+        TextField tf4 = new TextField("IP Address Here");
+        HBox com1 = new HBox(10);
+        HBox com2 = new HBox(10);
+        HBox com3 = new HBox(10);
+        HBox com4 = new HBox(10);
+        Button cont = new Button("Proceed to Login ");
+        cont.setOnAction(e -> window.setScene(login));
+        com1.getChildren().addAll(L1, tf1);
+        com2.getChildren().addAll(L2, tf2);
+        com3.getChildren().addAll(L3, tf3);
+        com4.getChildren().addAll(L4, tf4);
+        form.getChildren().addAll(com1, com2, com3, com4, cont);
+        form.setPadding(new Insets(70, 0, 0, 50));
+        return form;
+    }
 
     public VBox winningC()
     {
@@ -201,4 +223,3 @@ public class Client extends Application {
         return holder;
     }
 }
-
