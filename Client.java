@@ -34,6 +34,11 @@ public class Client extends Application {
     Stage window;
     ImageView iconI;
 
+    public static void main(String [] args)
+    {
+        launch(args);
+    }
+
     public void start(Stage primaryStage) throws Exception
     {
         window = primaryStage;
@@ -43,8 +48,8 @@ public class Client extends Application {
         primaryStage.setTitle("THE WORLD'S GREATEST ROCK PAPER SCISSORS GAME");
         sMenu = firstWindow();
         stMenu = new Scene(sMenu, 1000, 700);
-        back = secondWindow();
-        batField = new Scene(back, 1000, 700);
+        back = alt2nd();
+        batField = new Scene(back, 350, 500);
         lMenu = loginHere();
         login = new Scene(lMenu, 300, 350);
         winFrame = winningC();
@@ -140,27 +145,74 @@ public class Client extends Application {
 
         return back;
     }
+    public StackPane alt2nd()
+    {
+        StackPane bField = new StackPane();
+        Button bp1, br1, bs1;
+        VBox holder = new VBox(50);
+        VBox fLe = new VBox(0);
+        HBox firstL, secondL, choiceL;
+        ImageView oppProf = new ImageView();
+        ImageView aren = new ImageView();
+        ImageView r1 = new ImageView();
+        ImageView s1 = new ImageView();
+        ImageView p1 = new ImageView();
+        Image batField = new Image("try.gif", 350, 500, false,  true);
+        Image rock1 = new Image("bato.png", 100, 100 , false, false);
+        Image scissors1 = new Image("gunting.png", 100, 100 , false, false);
+        Image paper1 = new Image("papel.png", 100, 100 , false, false);
+        aren.setImage(batField);
+        r1.setImage(rock1);
+        s1.setImage(scissors1);
+        p1.setImage(paper1);
+        bp1 = new Button ("", p1);
+        bp1.setOnAction(e -> window.setScene(winX));
+        br1 = new Button ("", r1);
+        bs1 = new Button ("", s1);
+        Label ver = new Label("VS");
+        secondL = new HBox(20);
+        firstL = new HBox(20);
+        Label pTwo = new Label ("Opponent");
+        pTwo.setStyle("-fx-font: 24 arial");
+        ver.setStyle("-fx-font: 45 arial");
+        firstL.getChildren().addAll(pTwo);
+        firstL.setPadding(new Insets(0, 200, 50, 50));
+        bField.setPadding(new Insets(100, 50, 50, 50));
+        secondL.getChildren().addAll(ver);
+        secondL.setPadding(new Insets(0, 0, 0, 150));
+        choiceL = new HBox(10);
+        choiceL.getChildren().addAll(br1, bs1, bp1);
+        bp1.setStyle("-fx-background-color: rgba(52, 63, 125, 0.4);");
+        bs1.setStyle("-fx-background-color: rgba(52, 63, 125, 0.4);");
+        br1.setStyle("-fx-background-color: rgba(52, 63, 125, 0.4);");
+        holder.getChildren().addAll(firstL, secondL, choiceL);
+        bField.getChildren().addAll(aren, holder);
+
+        return bField;
+
+    }
+
     public VBox loginHere()
     {
         ImageView pImage = new ImageView();
         Image pPic = genpPic();
+        Label title = new Label("User Profiling: ");
         pImage.setFitHeight(100);
         pImage.setFitWidth(100);
         pImage.setImage(pPic);
         VBox canvas1 = new VBox(20);
         Button nextB = new Button("Continue to the Fray");
-        HBox forEach1, forEach2, forEach3;
+        HBox forEach1;
         TextField user;
         forEach1 = new HBox(20);
         user = new TextField();
         Label name  = new Label("Username: ");
-        Label logging = new Label("");
-        logging.setStyle("-fx-font: 36 arial;");
+        title.setStyle("-fx-font: 18 arial;");
         nextB.setOnAction(e -> window.setScene(batField));
         forEach1.getChildren().addAll(name, user);
         forEach1.setPadding(new Insets(0, 0, 0, 0));
         canvas1.setPadding(new Insets(50, 0, 0, 10));
-        canvas1.getChildren().addAll(logging, pImage, forEach1, nextB);
+        canvas1.getChildren().addAll(title, pImage, forEach1, nextB);
         return canvas1;
     }
 
